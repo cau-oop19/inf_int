@@ -12,6 +12,7 @@ private :
 	// ex) 15311111111111111 -> digits="11111111111111351", length=17, thesign=true;
 	// ex) -12345555555555 -> digits="55555555554321", length=14, thesign=false
 	// you may insert additional private members here.
+	resize(size_t size);
 
 public :
 	inf_int();				// assign 0 as a default value
