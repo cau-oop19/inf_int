@@ -4,6 +4,11 @@
 #include "inf_int.h"
 
 bool operator==(const inf_int& a, const inf_int& b) {
+
+	// 1. 부호 비교
+	if (a.thesign != b.thesign) return false; // a와 b의 부호가 다른 경우 false 출력
+
+	// 2. 자릿수 비교
 	for (unsigned int i = a.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용
 		if (*(a.digits + i - 1) != *(b.digits + i - 1)) return false; // 현재 자릿수가 a와 b가 다른 경우 false 출력
 		else continue;
