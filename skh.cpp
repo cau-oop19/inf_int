@@ -3,46 +3,6 @@
 #include <iostream>
 #include "inf_int.h"
 
-inf_int::inf_int()
-{
-	this->digits = new char[2];	// 동적할당
-
-	this->digits[0] = '0';		// default 값 0 설정
-	this->digits[1] = '\0';
-	this->length = 1;
-	this->thesign = true;
-}
-inf_int::inf_int(int n) {
-	char buf[100];
-
-	if (n < 0) {		// 음수 처리
-		this->thesign = false;
-		n = -n;
-	}
-	else {
-		this->thesign = true;
-	}
-
-	int i = 0;
-	while (n > 0) {			// 숫자를 문자열로 변환하는 과정
-		buf[i] = n % 10 + '0';
-
-		n /= 10;
-		i++;
-	}
-
-	if (i == 0) {	// 숫자의 절댓값이 0일 경우
-		new (this) inf_int();	// 생성자 재호출...gcc에서 컴파일에러가 있다고 함. inf_int()의 경우 별개의 인스턴스가 생성됨. 
-	}
-	else {
-		buf[i] = '\0';
-
-		this->digits = new char[i + 1];
-		this->length = i;
-		strcpy(this->digits, buf);
-	}
-}
-
 bool operator==(const inf_int& a, const inf_int& b) {
 	for (unsigned int i = a.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용
 		if (*(a.digits + i - 1) != *(b.digits + i - 1)) return false; // 현재 자릿수가 a와 b가 다른 경우 false 출력
