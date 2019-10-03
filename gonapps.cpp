@@ -63,7 +63,8 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 std::ostream& operator<<(std::ostream& ostr, const inf_int& self) {
 	std::string str{self.digits, self.length};
 	std::reverse(str.begin(), str.end());
-	ostr << self.thesign ? "+" : "-";
+	if(self.thesign == false)
+	ostr << "-";
 	ostr << std::move(str);
 	return ostr;
 }
