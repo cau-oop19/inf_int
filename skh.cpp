@@ -1,28 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
-
-class inf_int
-{
-private:
-	char* digits;
-	unsigned int length;
-	bool thesign;   // true if positive , false if negative.
-	// ex) 15311111111111111 -> digits="11111111111111351", length=17, thesign=true;
-	// ex) -12345555555555 -> digits="55555555554321", length=14, thesign=false
-	// you may insert additional private members here.
-
-public:
-
-	inf_int();
-	inf_int(int);
-
-	friend bool operator==(const inf_int&, const inf_int&);
-	friend bool operator!=(const inf_int&, const inf_int&);
-	friend bool operator>(const inf_int&, const inf_int&);
-	friend bool operator<(const inf_int&, const inf_int&);
-
-};
+#include "inf_int.h"
 
 inf_int::inf_int()
 {
@@ -63,7 +42,6 @@ inf_int::inf_int(int n) {
 		strcpy(this->digits, buf);
 	}
 }
-
 
 bool operator==(const inf_int& a, const inf_int& b) {
 	for (unsigned int i = a.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용

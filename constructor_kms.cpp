@@ -5,6 +5,8 @@
 	@brief  생성자 소멸자
 */
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "inf_int.h"
 
 inf_int::inf_int() {
@@ -38,7 +40,11 @@ inf_int::inf_int(int arg_int) {
 		arg_int /= 10;
 	}
 	//sprintf_s(digits, sizeof(char)*length, "%d", arg_int);
+<<<<<<< HEAD
 	//_itoa_s(arg_int, digits, sizeof(char)*length + 1, 10);
+=======
+	itoa(arg_int, digits, sizeof(char)*length + 1, 10);	//int to char 변환과정에서 null붙음
+>>>>>>> 524a2da7a7b6bf341b027570ee71db8e60301381
 	//memcpy(digits, (char *)&arg_int, sizeof(char)*length);
 }
 
