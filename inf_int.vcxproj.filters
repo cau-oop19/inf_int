@@ -20,7 +20,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="constructor_kms.cpp">
+    <ClCompile Include="gonapps.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="kms.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="skh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
