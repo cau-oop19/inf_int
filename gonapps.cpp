@@ -5,19 +5,57 @@
 #include "inf_int.h"
 
 void inf_int::calcCarries() {
-	for(size_t i = 0; i != length - 1 - 1; ++i) {
+	for(size_t i = 0; i != length - 1; ++i) {
 		while(digits[i] >= 10) {
 			digits[i] -= 10;
 			digits[i + 1] += 1;
 		}
+		while(digits[i] <= -10) {
+			digits[i] += 10;
+			digits[i + 1] -= 1;
+		}
 	}
 
-	if(digits[length - 1] >= 10)
+	if(digits[length - 1] >= 10 || digits[length - 1] <= -10)
 		extend(1);
 
 	while(digits[length - 1 - 1] >= 10) {
 		digits[length - 1 - 1] -= 10;
 		digits[length - 1] += 1;
+	}
+
+	while(digits[length - 1 - 1] <= -10) {
+		digits[length - 1 - 1] += 10;
+		digits[length - 1] -= 1;
+	}
+}
+
+void inf_int::calcPartialSum() {
+	for(size_t i = length - 1 - 1; i != -1; --i) {
+		if(digits[i + 1] * digits[i] < 0) {
+			if(digits[i + 1] > 0) {
+				++digits[i + 1];
+				if(digits[i] > 0)
+					digits[i] = 10 - digits[i];
+				else
+					digits[i] = -10 - digits[i];
+
+			} else {
+				--digits[i + 1];
+				if(digits[i] > 0)
+					digits[i] = 10 - digits[i];
+				else
+					digits[i] = -10 - digits[i];
+			}
+		}
+	}
+}
+
+void inf_int::normalize() {
+	thesign = digits[length - 1] >= 0;
+	for(size_t i = 0; i != length; ++i) {
+		if(digits[i] < 0)
+			digits *= -1;
 	}
 }
 
@@ -35,8 +73,11 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 		= longer_sign * longer.digits[i]
 		+ shorter_sign * shorter.digits[i];
 	}
-
-	res.calcCarries();
+	if(longer_sign == shorter_sign)
+		res.calcCarries();
+	else
+		res.calcPartialSum();
+	res.normalize();
 	return res;
 }
 
