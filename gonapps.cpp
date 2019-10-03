@@ -41,14 +41,22 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 }
 
 inf_int operator-(const inf_int& lhs, const inf_int& rhs) {
-	auto rhsCopy = rhs;
-	inf_int res{lhs.length > rhs.length ? lhs.length : rhs.length};
-	return res;
+	auto tmp = rhs;
+	rhs.thesign = !rhs.thesign;
+	return operator+(lhs, tmp);
 }
 
 inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
-	//  len == len1 + len2 || len == len1 + len2 + 1
-	inf_int res{lhs.length > rhs.length ? lhs.length : rhs.length};
+	//  len == len1 + len2 - 1 || len == len1 + len2
+	const auto& longer = lhs.length > rhs.length ? lhs : rhs;
+	const auto& shorter = lhs.length < rhs.length ? lhs : rhs;
+	auto res = longer;
+	for(size_t i = 0; i != shorter.length - 1; ++i) {
+		for(size_t j = 0; j != longer.length - 1; ++j) {
+			res.digits[j] *= shorter.digits[i];
+			calcCarries(&res);
+		}
+	}
 	return res;
 }
 
