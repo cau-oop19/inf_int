@@ -28,7 +28,7 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 	const auto& longer = lhs.length > rhs.length ? lhs : rhs;
 	const auto& shorter = lhs.length < rhs.length ? lhs : rhs;
 	const auto longer_sign = static_cast<uint8_t>(longer.thesign ? 1 : -1);
-	const auto shorter_sign = static_cast<uint8_t>(longer.thesign ? 1 : -1);
+	const auto shorter_sign = static_cast<uint8_t>(shorter.thesign ? 1 : -1);
 	inf_int res{longer.length};
 	for(size_t i = 0; i != shorter.length - 1; ++i) {
 		res.digits[i]
