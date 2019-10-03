@@ -19,7 +19,7 @@ public :
 	inf_int(const char* );
 	inf_int(const inf_int&);	// copy constructor
 	~inf_int(); // destructor
-	//void print();//±è¸í½Â test¿ë
+	//void print();	//±è¸í½Â test¿ë
 	
 	//////////////////
 	inf_int& operator=(const inf_int&);	// assignment operator
