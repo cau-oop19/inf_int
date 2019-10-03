@@ -5,6 +5,8 @@
 	@brief  생성자 소멸자
 */
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "inf_int.h"
 
 inf_int::inf_int() {
@@ -35,7 +37,7 @@ inf_int::inf_int(int arg_int) {
 
 	digits = (char *)malloc(sizeof(char)*length + 1);
 	//sprintf_s(digits, sizeof(char)*length, "%d", arg_int);
-	_itoa_s(arg_int, digits, sizeof(char)*length + 1, 10);	//int to char 변환과정에서 null붙음
+	itoa(arg_int, digits, sizeof(char)*length + 1, 10);	//int to char 변환과정에서 null붙음
 	//memcpy(digits, (char *)&arg_int, sizeof(char)*length);
 }
 
