@@ -4,20 +4,20 @@
 #include <cstdint>
 #include "inf_int.h"
 
-static void calcCarries(inf_int* val) {
-	for(size_t i = 0; i != val->length - 1 - 1; ++i) {
-		while(val->digits[i] >= 10) {
-			val->digits[i] -= 10;
-			val->digits[i + 1] += 1;
+void inf_int::calcCarries() {
+	for(size_t i = 0; i != length - 1 - 1; ++i) {
+		while(digits[i] >= 10) {
+			digits[i] -= 10;
+			digits[i + 1] += 1;
 		}
 	}
 
-	if(val->digits[val->length - 1] >= 10)
-		val->extend(1);
+	if(digits[length - 1] >= 10)
+		extend(1);
 
-	while(val->digits[val->length - 1 - 1] >= 10) {
-		val->digits[val->length - 1 - 1] -= 10;
-		val->digits[val->length - 1] += 1;
+	while(digits[length - 1 - 1] >= 10) {
+		digits[length - 1 - 1] -= 10;
+		digits[length - 1] += 1;
 	}
 }
 
@@ -36,13 +36,13 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 		+ shorter_sign * shorter.digits[i];
 	}
 
-	calcCarries(&res);
+	res.calcCarries();
 	return res;
 }
 
 inf_int operator-(const inf_int& lhs, const inf_int& rhs) {
 	auto tmp = rhs;
-	rhs.thesign = !rhs.thesign;
+	tmp.thesign = !rhs.thesign;
 	return operator+(lhs, tmp);
 }
 
@@ -54,7 +54,7 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 	for(size_t i = 0; i != shorter.length - 1; ++i) {
 		for(size_t j = 0; j != longer.length - 1; ++j) {
 			res.digits[j] *= shorter.digits[i];
-			calcCarries(&res);
+			res.calcCarries();
 		}
 	}
 	return res;

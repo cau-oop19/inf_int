@@ -13,6 +13,7 @@ private :
 	// ex) -12345555555555 -> digits="55555555554321", length=14, thesign=false
 	// you may insert additional private members here.
 	void extend(unsigned int extent);
+	void calcCarries();
 
 public :
 	inf_int();				// assign 0 as a default value
