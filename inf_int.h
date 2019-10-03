@@ -14,6 +14,7 @@ private :
 	// you may insert additional private members here.
 	void extend(unsigned int extent);
 	void calcCarries();
+	void calcComplements();
 
 public :
 	inf_int();				// assign 0 as a default value

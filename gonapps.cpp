@@ -30,7 +30,7 @@ void inf_int::calcCarries() {
 	}
 }
 
-void inf_int::calcPartialSum() {
+void inf_int::calcComplements() {
 	for(size_t i = length - 1 - 1; i != -1; --i) {
 		if(digits[i + 1] * digits[i] < 0) {
 			if(digits[i + 1] > 0) {
@@ -49,14 +49,14 @@ void inf_int::calcPartialSum() {
 			}
 		}
 	}
-}
-
-void inf_int::normalize() {
+	// change sign according to the sign of the biggest digit
 	thesign = digits[length - 1] >= 0;
+	// make digits positive
 	for(size_t i = 0; i != length; ++i) {
 		if(digits[i] < 0)
-			digits *= -1;
+			digits[i] *= -1;
 	}
+
 }
 
 inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
@@ -76,8 +76,7 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 	if(longer_sign == shorter_sign)
 		res.calcCarries();
 	else
-		res.calcPartialSum();
-	res.normalize();
+		res.calcComplements();
 	return res;
 }
 
@@ -98,6 +97,7 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 			res.calcCarries();
 		}
 	}
+	res.thesign = longer.thesign == shorter.thesign;
 	return res;
 }
 
