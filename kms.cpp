@@ -36,7 +36,7 @@ inf_int::inf_int(int arg_int) {
 	}
 
 	digits = (char *)malloc(sizeof(char)*(length + 1));
-	for (int i = 0; arg_int != 0; i++) {
+	for (size_t i = 0; arg_int != 0; i++) {
 		digits[i] = (arg_int % 10) + '0';
 		arg_int /= 10;
 	}
@@ -45,6 +45,7 @@ inf_int::inf_int(int arg_int) {
 	//itoa(arg_int, digits, sizeof(char)*length + 1, 10);	//int to char 변환과정에서 null붙음
 	//memcpy(digits, (char *)&arg_int, sizeof(char)*length);
 }
+
 
 inf_int::inf_int(const char* arg_str) {
 
@@ -57,7 +58,7 @@ inf_int::inf_int(const char* arg_str) {
 
 		length = strlen(arg_str) - 1;
 
-		for (int i = 1; i <= length; i++)
+		for (size_t i = 1; i <= length; i++)
 			digits[length - i] = arg_str[i];
 	}
 	else {
@@ -67,7 +68,7 @@ inf_int::inf_int(const char* arg_str) {
 
 		length = strlen(arg_str);
 
-		for (int i = 0; i < length; i++)
+		for (size_t i = 0; i < length; i++)
 			digits[length - 1 - i] = arg_str[i];
 	}
 }
@@ -83,6 +84,17 @@ inf_int::~inf_int() {
 	free(digits);
 }
 
+
+inf_int::inf_int(unsigned int size) {
+	length = size;
+	thesign = true;
+
+	digits = (char *)malloc(sizeof(char)*length);
+
+	for (size_t i = 0; i < length; i++) {
+		digits[i] = '0';
+	}
+}
 /*	
 ////////////////for debugging///////////////////
 
