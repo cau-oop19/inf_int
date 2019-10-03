@@ -7,6 +7,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <cstring>
 #include "inf_int.h"
 
 inf_int::inf_int() {
