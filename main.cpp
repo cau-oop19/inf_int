@@ -7,12 +7,9 @@
 
 #include "inf_int.h"
 #include <iostream>
-#include <string.h>
-#include <stdlib.h>
-<<<<<<< Updated upstream
-#include <stdlib.h>
-=======
->>>>>>> Stashed changes
+#include <cstring>
+#include <cstdlib>
+#include <cassert>
 
 int main()
 {
@@ -20,7 +17,7 @@ int main()
 	///////////////////////////////OUR TESTCASE//////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////
 	
-	std::cout << "---------------------Our TestCase---------------------" << endl;
+	std::cout << "---------------------Our TestCase---------------------" << std::endl;
 
 	inf_int temp;
 	inf_int p100(100);
@@ -66,7 +63,7 @@ int main()
 
 	assert((p8x10sq10 + m3x10sq10) == 50000000000);	//큰양수 + 큰음수
 
-	assert((m9999999998 + m9999999999) == -19999999997‬);	//큰음수 + 큰음수 올림수테스트
+	assert((m9999999998 + m9999999999) == -19999999997);	//큰음수 + 큰음수 올림수테스트
 
 	//////////////////////////
 	/*			-			*/
@@ -79,7 +76,7 @@ int main()
 
 	assert((p8x10sq10 - m3x10sq10) == 110000000000);	//큰양수 - 큰음수
 
-	assert((m9999999998 - m9999999999) == 1‬);	//큰음수 - 큰음수 올림수테스트
+	assert((m9999999998 - m9999999999) == 1);	//큰음수 - 큰음수 올림수테스트
 
 	//////////////////////////
 	/*			*			*/
@@ -136,7 +133,7 @@ int main()
 	///////////////////////////////GIVEN TESTCASE////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////
 
-	std::cout << "---------------------Given TestCase---------------------" << endl;
+	std::cout << "---------------------Given TestCase---------------------" << std::endl;
 
 	inf_int a, e;
 	inf_int b(100);
@@ -154,12 +151,12 @@ int main()
 
 
 	if (f == d) {
-		cout << "a : " << a << endl;
-		cout << "b : " << b << endl;
-		cout << "c : " << c << endl;
-		cout << "d : " << d << endl;
+		std::cout << "a : " << a << std::endl;
+		std::cout << "b : " << b << std::endl;
+		std::cout << "c : " << c << std::endl;
+		std::cout << "d : " << d << std::endl;
 		// cout << "e : " << e << endl;
-		cout << "f : " << f << endl;
+		std::cout << "f : " << f << std::endl;
 		// cout << "g : " << g << endl;
 	}
 
