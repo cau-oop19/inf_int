@@ -84,6 +84,7 @@ inf_int::inf_int(unsigned int size) {
 }
 
 
+/*
 ////////////////for debugging///////////////////
 
 void inf_int::print() {
@@ -124,3 +125,4 @@ int main() {
 
 }
 
+*/
