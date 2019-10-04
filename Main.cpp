@@ -1,11 +1,27 @@
+ï»¿/**
+	@file   main.cpp
+	@date   2019/10/04
+	@author ê¹€ëª…ìŠ¹(mskim9967@gmail.com) ì¤‘ì•™ëŒ€í•™êµ ì†Œí”„íŠ¸ì›¨ì–´í•™ë¶€ 20186274
+	@brief  122ì¤„ë¶€í„° êµìˆ˜ë‹˜ mainí•¨ìˆ˜
+*/
+
 #include "inf_int.h"
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
+<<<<<<< Updated upstream
 #include <stdlib.h>
+=======
+>>>>>>> Stashed changes
 
 int main()
 {
+	/////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////OUR TESTCASE//////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////
+	
+	std::cout << "---------------------Our TestCase---------------------" << endl;
+
 	inf_int temp;
 	inf_int p100(100);
 	inf_int p200(200);
@@ -16,6 +32,8 @@ int main()
 	inf_int p3x10sq10("30000000000");
 	inf_int m3x10sq10("-30000000000");
 	inf_int p8x10sq10("80000000000");
+	inf_int m9999999999("-9999999999");
+	inf_int m9999999998("-9999999998");
 
 	inf_int p100_COPY(p100);
 
@@ -31,6 +49,8 @@ int main()
 	std::cout << "m3x10sq10 : " << m3x10sq10 << std::endl;
 	std::cout << "p3x10sq10 : " << p3x10sq10 << std::endl;
 	std::cout << "p8x10sq10 : " << p8x10sq10 << std::endl;
+	std::cout << "m9999999999 : " << m9999999999 << std::endl;
+	std::cout << "m9999999998 : " << m9999999998 << std::endl;
 	std::cout << "p100_COPY : " << p100_COPY << std::endl;
 
 	std::cout << std::endl;
@@ -38,153 +58,110 @@ int main()
 	//////////////////////////
 	/*			+			*/
 	//////////////////////////
-	temp = p100 + p200;	//¾ç¼ö + ¾ç¼ö
-	std::cout << "100 + 200 : " << temp << std::endl;
+	assert((p100 + p200) == 300);	//ì–‘ìˆ˜ + ì–‘ìˆ˜
 
-	temp = p100 + m200;	//¾ç¼ö + À½¼ö
-	std::cout << "100 + -200 : " << temp << std::endl;
+	assert((p100 + m200) == -100);	//ì–‘ìˆ˜ + ìŒìˆ˜
 
-	temp = m200 + m300;	//À½¼ö + À½¼ö
-	std::cout << "-200 + -300 : " << temp << std::endl;
+	assert((m200 + m300) == -500);	//ìŒìˆ˜ + ìŒìˆ˜
 
-	temp = p8x10sq10 + m3x10sq10;	//Å«¾ç¼ö + Å«À½¼ö
-	std::cout << "80000000000 + -30000000000 : " << temp << std::endl;
-	
-	std::cout << std::endl;
+	assert((p8x10sq10 + m3x10sq10) == 50000000000);	//í°ì–‘ìˆ˜ + í°ìŒìˆ˜
 
+	assert((m9999999998 + m9999999999) == -19999999997â€¬);	//í°ìŒìˆ˜ + í°ìŒìˆ˜ ì˜¬ë¦¼ìˆ˜í…ŒìŠ¤íŠ¸
 
 	//////////////////////////
 	/*			-			*/
 	//////////////////////////
-	temp = p100 - p200;	//¾ç¼ö - ¾ç¼ö
-	std::cout << "100 - 200 : " << temp << std::endl;
+	assert((p100 - p200) == -100);	//ì–‘ìˆ˜ - ì–‘ìˆ˜
 
-	temp = p100 - m200;	//¾ç¼ö - À½¼ö
-	std::cout << "100 - -200 : " << temp << std::endl;
+	assert((p100 - m200) == 300);	//ì–‘ìˆ˜ - ìŒìˆ˜
 
-	temp = m200 - m300;	//À½¼ö - À½¼ö
-	std::cout << "-200 - -300 : " << temp << std::endl;
+	assert((m200 - m300) == 100);	//ìŒìˆ˜ - ìŒìˆ˜
 
-	temp = p8x10sq10 - m3x10sq10;	//Å«¾ç¼ö - Å«À½¼ö
-	std::cout << "80000000000 - -30000000000 : " << temp << std::endl;
-	
-	std::cout << std::endl;
+	assert((p8x10sq10 - m3x10sq10) == 110000000000);	//í°ì–‘ìˆ˜ - í°ìŒìˆ˜
 
+	assert((m9999999998 - m9999999999) == 1â€¬);	//í°ìŒìˆ˜ - í°ìŒìˆ˜ ì˜¬ë¦¼ìˆ˜í…ŒìŠ¤íŠ¸
 
 	//////////////////////////
 	/*			*			*/
 	//////////////////////////
-	temp = p100 * p200;	//¾ç¼ö * ¾ç¼ö
-	std::cout << "100 * 200 : " << temp << std::endl;
+	assert((p100 * p200) == 20000);	//ì–‘ìˆ˜ * ì–‘ìˆ˜
 
-	temp = p100 * m200;	//¾ç¼ö * À½¼ö
-	std::cout << "100 * -200 : " << temp << std::endl;
+	assert((p100 * m200) == -20000);	//ì–‘ìˆ˜ * ìŒìˆ˜
 
-	temp = m200 * m300;	//À½¼ö * À½¼ö
-	std::cout << "-200 * -300 : " << temp << std::endl;
+	assert((m200 * m300) == 60000);	//ìŒìˆ˜ * ìŒìˆ˜
 
-	temp = p8x10sq10 * m3x10sq10;	//Å«¾ç¼ö * Å«À½¼ö
+	temp = p8x10sq10 * m3x10sq10;	//í°ì–‘ìˆ˜ * í°ìŒìˆ˜
 	std::cout << "80000000000 * -30000000000 : " << temp << std::endl;
-	
-	std::cout << std::endl;
 
-
+	temp = m9999999998 * m9999999999;	//í°ìŒìˆ˜ * í°ìŒìˆ˜ ì˜¬ë¦¼ìˆ˜í…ŒìŠ¤íŠ¸
+	std::cout << "-9999999998 * -9999999999 : " << temp << std::endl;
 	//////////////////////////
 	/*			==			*/
 	//////////////////////////
-	std::cout << p100 << " == " << p200;
-	if (p100 == p200)
-		std::cout <<" is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((p100 == p200) == false);
 
-	std::cout << m3x10sq10 << " == " << m3x10sq10_sec;
-	if (m3x10sq10 == m3x10sq10_sec)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
-	
-	std::cout << p3x10sq10 << " == " << m3x10sq10;
-	if (p3x10sq10 == m3x10sq10)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
-	
-	std::cout << std::endl;
+	assert((m3x10sq10 == m3x10sq10_sec) == true);
 
+	assert((p3x10sq10 == m3x10sq10) == false);
 
 	//////////////////////////
 	/*			!=			*/
 	//////////////////////////
-	std::cout << p100 << " != " << p200;
-	if (p100 != p200)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((p100 != p200) == true);
 
-	std::cout << m3x10sq10 << " != " << m3x10sq10_sec;
-	if (m3x10sq10 != m3x10sq10_sec)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((m3x10sq10 != m3x10sq10_sec) == false);
 
-	std::cout << p3x10sq10 << " != " << m3x10sq10;
-	if (p3x10sq10 != m3x10sq10)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
-	
-	std::cout << std::endl;
-
+	assert((p3x10sq10 != m3x10sq10) == true);
 
 	//////////////////////////
 	/*			>			*/
 	//////////////////////////
-	std::cout << p100 << " > " << p200;
-	if (p100 > p200)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((p100 > p200) == false);
 
-	std::cout << m3x10sq10 << " > " << m3x10sq10_sec;
-	if (m3x10sq10 > m3x10sq10_sec)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((m3x10sq10 > m3x10sq10_sec) == false);
 
-	std::cout << p3x10sq10 << " > " << m3x10sq10;
-	if (p3x10sq10 > m3x10sq10)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
-	
-	std::cout << std::endl;
-
+	assert((p3x10sq10 > m3x10sq10) == true);
 
 	//////////////////////////
 	/*			<			*/
 	//////////////////////////
-	std::cout << p100 << " < " << p200;
-	if (p100 < p200)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((p100 < p200) == true);
 
-	std::cout << m3x10sq10 << " < " << m3x10sq10_sec;
-	if (m3x10sq10 < m3x10sq10_sec)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
+	assert((m3x10sq10 < m3x10sq10_sec) == false);
 
-	std::cout << p3x10sq10 << " < " << m3x10sq10;
-	if (p3x10sq10 < m3x10sq10)
-		std::cout << " is true" << std::endl;
-	else
-		std::cout << " is false" << std::endl;
-	
-	std::cout << std::endl;
+	assert((p3x10sq10 < m3x10sq10) == false);
 
 
+	/////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////GIVEN TESTCASE////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////
+
+	std::cout << "---------------------Given TestCase---------------------" << endl;
+
+	inf_int a, e;
+	inf_int b(100);
+	inf_int c("321111111111122222222222233333333333444444444445555555555");
+	inf_int d("123451987651234572749499923455022211");
+	inf_int f = d;
+	inf_int g(f);
+
+	// cin >> g ;   // not required
+
+	a = b * c;
+	// e=g/f;       // not required
+
+	b = c - d;
+
+
+	if (f == d) {
+		cout << "a : " << a << endl;
+		cout << "b : " << b << endl;
+		cout << "c : " << c << endl;
+		cout << "d : " << d << endl;
+		// cout << "e : " << e << endl;
+		cout << "f : " << f << endl;
+		// cout << "g : " << g << endl;
+	}
 
 	return 0;
 }
