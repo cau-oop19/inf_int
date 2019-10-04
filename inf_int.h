@@ -15,7 +15,7 @@ private :
 	void extend(unsigned int extent);
 	void calcCarries();
 	void calcComplements();
-
+	void normalize();
 public :
 	inf_int();				// assign 0 as a default value
 	inf_int(int);

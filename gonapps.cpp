@@ -29,6 +29,7 @@ void inf_int::calcCarries() {
 		digits[length - 1 - 1] += 10;
 		digits[length - 1] -= 1;
 	}
+	thesign = digits[length - 1] >= 0;
 }
 
 void inf_int::extend(unsigned int extent) {
@@ -58,12 +59,13 @@ void inf_int::calcComplements() {
 	}
 	// change sign according to the sign of the biggest digit
 	thesign = digits[length - 1] >= 0;
-	// make digits positive
+}
+
+void inf_int::normalize() {
 	for(size_t i = 0; i != length; ++i) {
 		if(digits[i] < 0)
 			digits[i] *= -1;
 	}
-
 }
 
 inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
@@ -80,12 +82,12 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 		res.digits[i]
 		= longer_sign * longer.digits[i]
 		+ shorter_sign * shorter.digits[i];
-
 	}
 	if(longer_sign == shorter_sign)
 		res.calcCarries();
 	else
 		res.calcComplements();
+	res.normalize();
 	return res;
 }
 
