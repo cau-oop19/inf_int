@@ -9,6 +9,7 @@
 
 #include <cstring>
 #include "inf_int.h"
+#include <regex>
 
 inf_int::inf_int() {
 	new (this) inf_int("0");
@@ -32,23 +33,22 @@ inf_int::inf_int(int arg_int) {
 
 
 inf_int::inf_int(const char* arg_str) {
-	//-0이 입력되면 0으로 바꿈
-	if (!memcmp(arg_str, "-0", strlen(arg_str))) {
+	//0으로만 이루어진 문자열은 "0"으로 생성자 호출
+	std::regex onlyZero("^[-0]{2,}$");
+	if (regex_match(arg_str, onlyZero)) {
 		new (this) inf_int("0");
 		return;
 	}
 
-	size_t start_i;
+	thesign = arg_str[0] == '-' ? false : true;
+
+	//앞에 붙은 0들을 제외한 문자열 시작위치를 start_i에 대입  
+	size_t start_i=0;
 	for (size_t i = 0; i < strlen(arg_str); i++) {
 		if (arg_str[i] >= '1'&&arg_str[i] <= '9') {
-			thesign = arg_str[0] == '-' ? false : true;
-
 			start_i = i;
 			break;
 		}
-		//위 if문을 한번도 실행 못한 문자열은 0으로만 이루어진 문자열이므로 부호는 항상 +
-		start_i = i;
-		thesign = true;
 	}
 
 	length = strlen(arg_str) - start_i;
@@ -83,7 +83,7 @@ inf_int::inf_int(unsigned int size) {
 		digits[i] = '0';
 }
 
-/*
+
 ////////////////for debugging///////////////////
 
 void inf_int::print() {
@@ -124,4 +124,3 @@ int main() {
 
 }
 
-*/
