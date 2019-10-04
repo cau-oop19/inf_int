@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <cstring>
 #include <cstdlib>
 #include <cstddef>
 #include "inf_int.h"
