@@ -74,7 +74,8 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 	const auto& shorter = lhs.length > rhs.length ? rhs : lhs;
 	const auto longer_sign = static_cast<uint8_t>(longer.thesign ? 1 : -1);
 	const auto shorter_sign = static_cast<uint8_t>(shorter.thesign ? 1 : -1);
-	inf_int res{longer.length};
+	inf_int res;
+	res.extend(longer.length - 1);
 	for(size_t i = 0; i < shorter.length - 1; ++i) {
 		res.digits[i]
 		= longer_sign * longer.digits[i]
