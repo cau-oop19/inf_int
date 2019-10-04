@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdlib.h>
 
-
 int main()
 {
 	inf_int temp;

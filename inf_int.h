@@ -1,5 +1,5 @@
-#ifndef _INF_INT_H_
-#define _INF_INT_H_
+#ifndef INF_INT_H
+#define INF_INT_H
 
 #include <iostream>
 
@@ -18,6 +18,7 @@ private :
 
 public :
 	inf_int();				// assign 0 as a default value
+	inf_int(unsigned int);
 	inf_int(int);
 	inf_int(const char* );
 	inf_int(const inf_int&);	// copy constructor

@@ -1,11 +1,12 @@
 #include <algorithm>
-#include <utility>
-#include <string>
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include <utility>
 #include "inf_int.h"
 
 void inf_int::calcCarries() {
-	for(size_t i = 0; i != length - 1; ++i) {
+	for(size_t i = 0; i < length - 1; ++i) {
 		while(digits[i] >= 10) {
 			digits[i] -= 10;
 			digits[i + 1] += 1;
@@ -30,8 +31,14 @@ void inf_int::calcCarries() {
 	}
 }
 
+void inf_int::extend(unsigned int extent) {
+	digits = (char*)realloc(digits, length + extent);
+	memset(digits + length, 0, extent);
+	length += extent;
+}
+
 void inf_int::calcComplements() {
-	for(size_t i = length - 1 - 1; i != -1; --i) {
+	for(size_t i = length - 1 - 1; i >=0; --i) {
 		if(digits[i + 1] * digits[i] < 0) {
 			if(digits[i + 1] > 0) {
 				++digits[i + 1];
@@ -52,7 +59,7 @@ void inf_int::calcComplements() {
 	// change sign according to the sign of the biggest digit
 	thesign = digits[length - 1] >= 0;
 	// make digits positive
-	for(size_t i = 0; i != length; ++i) {
+	for(size_t i = 0; i < length; ++i) {
 		if(digits[i] < 0)
 			digits[i] *= -1;
 	}
@@ -68,7 +75,7 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 	const auto longer_sign = static_cast<uint8_t>(longer.thesign ? 1 : -1);
 	const auto shorter_sign = static_cast<uint8_t>(shorter.thesign ? 1 : -1);
 	inf_int res{longer.length};
-	for(size_t i = 0; i != shorter.length - 1; ++i) {
+	for(size_t i = 0; i < shorter.length - 1; ++i) {
 		res.digits[i]
 		= longer_sign * longer.digits[i]
 		+ shorter_sign * shorter.digits[i];
@@ -91,8 +98,8 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 	const auto& longer = lhs.length > rhs.length ? lhs : rhs;
 	const auto& shorter = lhs.length > rhs.length ? rhs : lhs;
 	auto res = longer;
-	for(size_t i = 0; i != shorter.length - 1; ++i) {
-		for(size_t j = 0; j != longer.length - 1; ++j) {
+	for(size_t i = 0; i < shorter.length - 1; ++i) {
+		for(size_t j = 0; j < longer.length - 1; ++j) {
 			res.digits[j] *= shorter.digits[i];
 			res.calcCarries();
 		}
