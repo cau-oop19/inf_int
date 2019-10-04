@@ -111,9 +111,11 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 
 std::ostream& operator<<(std::ostream& ostr, const inf_int& self) {
 	std::string str{self.digits, self.length};
+	for(size_t i = 0; i < self.length; ++i)
+		str[i] += '0';
 	std::reverse(str.begin(), str.end());
 	if(self.thesign == false)
-	ostr << "-";
+		ostr << "-";
 	ostr << std::move(str);
 	return ostr;
 }
