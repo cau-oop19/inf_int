@@ -8,8 +8,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <cstring>
-#include "inf_int.h"
 #include <regex>
+#include "inf_int.h"
 
 inf_int::inf_int() {
 	new (this) inf_int("0");
@@ -20,11 +20,11 @@ inf_int::inf_int(int arg_int) {
 	size_t intLen = 0;
 
 	do {
-		intLen++;
+		++intLen;
 	} while (intTemp /= 10);
 
-	char* intToStr = (char *)malloc(sizeof(char)*(intLen + 1));	//NULL 자리 포함해서 +1
-	snprintf(intToStr, sizeof(char)*(intLen + 2), "%d", arg_int);	//NULL, 앞의 부호 자리 포함해서 +2 
+	char* intToStr = (char*)malloc(sizeof(char) * (intLen + 1));	//NULL 자리 포함해서 +1
+	snprintf(intToStr, sizeof(char) * (intLen + 2), "%d", arg_int);	//NULL, 앞의 부호 자리 포함해서 +2 
 
 	new (this) inf_int((const char*)intToStr);
 
@@ -40,12 +40,12 @@ inf_int::inf_int(const char* arg_str) {
 		return;
 	}
 
-	thesign = arg_str[0] == '-' ? false : true;
+	thesign = arg_str[0] != '-';
 
 	//앞에 붙은 0들을 제외한 문자열 시작위치를 start_i에 대입  
-	size_t start_i=0;
+	size_t start_i = 0;
 	for (size_t i = 0; i < strlen(arg_str); i++) {
-		if (arg_str[i] >= '1'&&arg_str[i] <= '9') {
+		if (arg_str[i] >= '1' && arg_str[i] <= '9') {
 			start_i = i;
 			break;
 		}
@@ -53,36 +53,22 @@ inf_int::inf_int(const char* arg_str) {
 
 	length = strlen(arg_str) - start_i;
 
-	digits = (char *)malloc(sizeof(char)*length);
+	digits = (char*)malloc(sizeof(char) * length);
 
 	for (size_t i = 1; i <= length; i++)
 		digits[length - i] = arg_str[start_i++];
 }
 
-
 inf_int::inf_int(const inf_int& arg_int) {
-	digits = (char *)malloc(sizeof(char)*arg_int.length);
-	memcpy(this->digits, arg_int.digits, sizeof(char)*arg_int.length);
+	digits = (char *)malloc(sizeof(char) * arg_int.length);
+	memcpy(this->digits, arg_int.digits, sizeof(char) * arg_int.length);
 	this->length = arg_int.length;
 	this->thesign = arg_int.thesign;
 }
 
-
 inf_int::~inf_int() {
 	free(digits);
 }
-
-
-inf_int::inf_int(unsigned int size) {
-	length = size;
-	thesign = true;
-
-	digits = (char *)malloc(sizeof(char)*length);
-
-	for (size_t i = 0; i < length; i++)
-		digits[i] = '0';
-}
-
 
 /*
 ////////////////for debugging///////////////////
