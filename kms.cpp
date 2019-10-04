@@ -55,8 +55,8 @@ inf_int::inf_int(const char* arg_str) {
 
 	digits = (char*)malloc(sizeof(char) * length);
 
-	for (size_t i = 1; i <= length; i++)
-		digits[length - i] = arg_str[start_i++];
+	for (size_t i = 1; i <= length; ++i)
+		digits[length - i] = arg_str[start_i++] - '0';
 }
 
 inf_int::inf_int(const inf_int& arg_int) {
