@@ -88,6 +88,7 @@ bool operator==(const inf_int& lhs, const inf_int& rhs) {
 
 	// 최종 결과 출력
 	for (std::size_t i = 0; i < coreNum; i++) {
+
 		if (threadFuture[i].get() == false)
 		{
 			// 선언했던 promise, future, thread를 제거
