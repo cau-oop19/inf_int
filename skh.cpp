@@ -88,8 +88,20 @@ bool operator==(const inf_int& lhs, const inf_int& rhs) {
 
 	// 최종 결과 출력
 	for (std::size_t i = 0; i < coreNum; i++) {
-		if (threadFuture[i].get() == false) return false; // 최종 확인 결과 lhs와 rhs가 다름, false 출력
+		if (threadFuture[i].get() == false)
+		{
+			// 선언했던 promise, future, thread를 제거
+			delete threadPromise;
+			delete threadFuture;
+			delete thread;
+			return false; // 최종 확인 결과 lhs와 rhs가 다름, false 출력
+		}
 	}
+
+	// 선언했던 promise, future, thread를 제거
+	delete threadPromise;
+	delete threadFuture;
+	delete thread;
 
 	///////////////////////////////////////////
 	////////// 멀티스레딩 테스트 종료 /////////
