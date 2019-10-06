@@ -3,7 +3,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <thread>
-#include <future>
+#include <atomic>
 #include <cstddef>
 #include "inf_int.h"
 
@@ -43,64 +43,54 @@ bool operator==(const inf_int& lhs, const inf_int& rhs) {
 
 
 	/*
-		스레드를 만들기 전에, 먼저 논리 코어 수만큼 promise, future, thread를 선언합니다.
-		그 후 lhs와 rhs의 digits를 논리 코어 수만큼 분할하고, 분할한 string을 char*의 형태로 각 스레드에 할당합니다.
-		각 스레드에서는 할당된 분량의 두 string이 같은지 확인한 후 promise에 bool 값을 리턴합니다.
-		모든 스레드가 종료된 후, future로부터 bool 값을 확인하여 분할했던 string들이 모두 같은지 최종 확인합니다.
+		먼저 필요한 스레드의 갯수를 정하고, 모든 스레드에서 접근할 수 있는 atomic 변수 result를 선언합니다.
+		그 후 lhs와 rhs의 digits를 스레드 수만큼 분할하고, 분할한 string을 char*의 형태로 각 스레드에 할당합니다.
+		각 스레드에서는 할당된 분량의 두 string이 같은지 확인하며, 다른 부분이 발견될 경우 result에 false를 반환합니다.
+		단 하나의 스레드에서라도 다른 부분을 발견했을 경우, result는 false가 되고 모든 스레드는 종료됩니다.
+		모든 스레드가 종료된 후, result의 bool값을 통해, 이전에 분할했던 string들이 모두 같은지 최종 확인합니다.
 	*/
 
 
-	// 프로그램을 실행하는 컴퓨터의 논리 코어 수 저장
-	const std::size_t coreNum = std::thread::hardware_concurrency();
+	// 필요한 스레드의 갯수 선언
+	// 비교할 숫자의 길이가 CPU의 코어 수보다 많을 경우 코어 수를, 그렇지 않을 경우 비교할 숫자의 길이를 지정
+	const std::size_t number_of_threads = (lhs.length >= std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : lhs.length);
 
-	// 스레드의 promise, future, thread를 논리 코어 수만큼 선언
-	std::promise<bool> *threadPromise = new std::promise<bool>[coreNum];
-	std::future<bool> *threadFuture = new std::future<bool>[coreNum];
-	std::thread *thread = new std::thread[coreNum];
+	//// 스레드를 논리 코어 수만큼 선언
+	std::atomic<bool> result{ true }; // 결과값 저장, 기본값으로 true 지정
+	std::thread *thread = new std::thread[number_of_threads]; // 스레드 선언
 
 	// 스레드 생성 및 실행
-	std::size_t digits_offset = 0; // 스레드에 할당될 string의 시작 지점
-	for (std::size_t i = 0; i < coreNum; i++) {
+	std::size_t digits_offset = 0; // 스레드에 할당될 string의 시작 지점을 상대적으로 지정함
+	for (std::size_t i = 0; i < number_of_threads; i++) {
 
-		std::size_t offset_jump_length = ((lhs.length % coreNum) > i) ? ((lhs.length / coreNum) + 1) : (lhs.length / coreNum); // 스레드에 할당될 string의 길이
-		
-		threadFuture[i] = threadPromise[i].get_future(); // future에 promise의 반환 예정 값 지정
+		std::size_t offset_jump_length = ((lhs.length % number_of_threads) > i) ? ((lhs.length / number_of_threads) + 1) : (lhs.length / number_of_threads); // 스레드에 할당될 string의 길이
 
 		// 스레드 생성 (람다 함수 사용)
-		thread[i] = std::thread([](std::promise<bool>* result, char* lhs, char* rhs, std::size_t jumpLength)
+		thread[i] = std::thread([](std::atomic< bool >& result, char* lhs, char* rhs, std::size_t offset_jump_length)
 		{
-			for (std::size_t k = 0; k < jumpLength; k++) {
-				//std::cout << *(lhs + k) << ", " << *(rhs + k) << "\n";
-				if (*(lhs + k) != *(rhs + k)) {
-					result->set_value(false); // 이 스레드에 할당된 부분에서 lhs와 rhs가 다름, false 출력
-					return;
-				}
+			for (std::size_t k = 0; k < offset_jump_length; k++) {
+				std::cout << *(lhs + k) << ", " << *(rhs + k) << "\n";
+				if (*(lhs + k) != *(rhs + k)) result = false; // 이 스레드에 할당된 부분에서 lhs와 rhs가 다름, false 출력
+				if (result == false) return; // 이 스레드를 포함하여, 단 하나의 스레드에서라도 false가 출력되었을 경우 모든 스레드를 종료
 			}
-			result->set_value(true); // 이 스레드에 할당된 부분에서 lhs와 rhs가 같음, true 출력
-			return;
-		}, &threadPromise[i], lhs.digits + (digits_offset * sizeof(char)), rhs.digits + (digits_offset * sizeof(char)), offset_jump_length);
+			return; // result를 true로 놔둔 채 이 스레드 종료
+
+		}, std::ref(result), lhs.digits + (digits_offset * sizeof(char)), rhs.digits + (digits_offset * sizeof(char)), offset_jump_length);
 
 		digits_offset += offset_jump_length; // digits_offset 갱신
 	}
 
-	// 모든 결과가 나올 때까지 대기
-	for (std::size_t i = 0; i < coreNum; i++) thread[i].join();
+	for (std::size_t i = 0; i < number_of_threads; i++) thread[i].join(); // 모든 결과가 나올 때까지 대기
 
 	// 최종 결과 출력
-	for (std::size_t i = 0; i < coreNum; i++) {
-		if (threadFuture[i].get() == false)
-		{
-			// 선언했던 promise, future, thread를 제거
-			delete[] threadPromise;
-			delete[] threadFuture;
-			delete[] thread;
-			return false; // 최종 확인 결과 lhs와 rhs가 다름, false 출력
-		}
+	if (result == false)
+	{
+		// 선언했던 스레드를 제거
+		delete[] thread;
+		return false; // 최종 확인 결과 lhs와 rhs가 다름, false 출력
 	}
 
-	// 선언했던 promise, future, thread를 제거
-	delete[] threadPromise;
-	delete[] threadFuture;
+	// 선언했던 스레드를 제거
 	delete[] thread;
 
 	///////////////////////////////////////////
