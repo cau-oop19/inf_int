@@ -56,7 +56,7 @@ bool operator==(const inf_int& lhs, const inf_int& rhs) {
 	const std::size_t number_of_threads = (lhs.length >= std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : lhs.length);
 
 	//// 스레드를 논리 코어 수만큼 선언
-	std::atomic<bool> result{ true }; // 결과값 저장, 기본값으로 true 지정
+	std::atomic<bool> result { true }; // 결과값 저장, 기본값으로 true 지정
 	std::thread *thread = new std::thread[number_of_threads]; // 스레드 선언
 
 	// 스레드 생성 및 실행
@@ -69,7 +69,7 @@ bool operator==(const inf_int& lhs, const inf_int& rhs) {
 		thread[i] = std::thread([](std::atomic< bool >& result, char* lhs, char* rhs, std::size_t offset_jump_length)
 		{
 			for (std::size_t k = 0; k < offset_jump_length; k++) {
-				std::cout << *(lhs + k) << ", " << *(rhs + k) << "\n";
+				// std::cout << *(lhs + k) << ", " << *(rhs + k) << "\n";
 				if (*(lhs + k) != *(rhs + k)) result = false; // 이 스레드에 할당된 부분에서 lhs와 rhs가 다름, false 출력
 				if (result == false) return; // 이 스레드를 포함하여, 단 하나의 스레드에서라도 false가 출력되었을 경우 모든 스레드를 종료
 			}
