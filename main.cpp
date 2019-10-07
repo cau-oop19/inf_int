@@ -52,7 +52,7 @@ int main()
 
 	assert((inf_int(100) * inf_int(-200)) == inf_int(-20000));	//양수 * 음수
 
-	assert(inf_int(-200) * inf_int(-300)) == inf_int(60000));	//음수 * 음수
+	assert(inf_int(-200) * inf_int(-300) == inf_int(60000));	//음수 * 음수
 
 	//큰양수 * 큰음수
 	std::cout << "80000000000 * -30000000000 : " << inf_int("80000000000")*inf_int("-30000000000") << std::endl;
