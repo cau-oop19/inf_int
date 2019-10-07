@@ -62,6 +62,7 @@ void inf_int::calcComplements() {
 }
 
 void inf_int::normalize() {
+	// remove all zeros in the front
 	size_t zeros = 0;
 	for(size_t i = length - 1; digits[i] == 0 && i != -1; --i)
 		++zeros;
@@ -69,7 +70,7 @@ void inf_int::normalize() {
 		digits = (char*)realloc(digits, length - zeros);
 		length -= zeros;
 	}
-
+	// make all digits positive
 	for(size_t i = 0; i != length; ++i) {
 		if(digits[i] < 0)
 			digits[i] *= -1;
