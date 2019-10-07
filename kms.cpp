@@ -60,7 +60,7 @@ inf_int::inf_int(const char* arg_str) {
 }
 
 inf_int::inf_int(const inf_int& arg_int) {
-	digits = (char *)malloc(sizeof(char) * arg_int.length);
+	digits = (char*)malloc(sizeof(char) * arg_int.length);
 	memcpy(this->digits, arg_int.digits, sizeof(char) * arg_int.length);
 	this->length = arg_int.length;
 	this->thesign = arg_int.thesign;
