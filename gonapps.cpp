@@ -20,12 +20,12 @@ void inf_int::calcCarries() {
 	if(digits[length - 1] >= 10 || digits[length - 1] <= -10)
 		extend(1);
 
-	while(digits[length - 1 - 1] >= 10) {
+	while(length - 1 > 0 && digits[length - 1 - 1] >= 10) {
 		digits[length - 1 - 1] -= 10;
 		digits[length - 1] += 1;
 	}
 
-	while(digits[length - 1 - 1] <= -10) {
+	while(length - 1 > 0 && digits[length - 1 - 1] <= -10) {
 		digits[length - 1 - 1] += 10;
 		digits[length - 1] -= 1;
 	}
