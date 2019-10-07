@@ -82,16 +82,16 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 	// + -: 1 <= len <= longer_len
 	const auto& longer = lhs.length > rhs.length ? lhs : rhs;
 	const auto& shorter = lhs.length > rhs.length ? rhs : lhs;
-	const auto longer_sign = static_cast<uint8_t>(longer.thesign ? 1 : -1);
-	const auto shorter_sign = static_cast<uint8_t>(shorter.thesign ? 1 : -1);
+	const auto longerSign = static_cast<uint8_t>(longer.thesign ? 1 : -1);
+	const auto shorterSign = static_cast<uint8_t>(shorter.thesign ? 1 : -1);
 	inf_int res;
 	res.extend(longer.length - 1);
 	for(size_t i = 0; i != shorter.length; ++i) {
 		res.digits[i]
-		= longer_sign * longer.digits[i]
-		+ shorter_sign * shorter.digits[i];
+		= longerSign * longer.digits[i]
+		+ shorterSign * shorter.digits[i];
 	}
-	if(longer_sign == shorter_sign)
+	if(longerSign == shorterSign)
 		res.calcCarries();
 	else
 		res.calcComplements();
@@ -109,10 +109,11 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 	//  len == len1 + len2 - 1 || len == len1 + len2
 	const auto& longer = lhs.length > rhs.length ? lhs : rhs;
 	const auto& shorter = lhs.length > rhs.length ? rhs : lhs;
-	auto res = longer;
-	for(size_t i = 0; i != shorter.length; ++i) {
-		for(size_t j = 0; j != longer.length; ++j) {
-			res.digits[j] *= shorter.digits[i];
+	inf_int res{};
+	res.extend(longer.length + shorter.length - 1 - 1);
+	for(size_t i = 0; i != longer.length; ++i) {
+		for(size_t j = 0; j != shorter.length; ++j) {
+			res.digits[i + j] = longer.digits[i] * shorter.digits[j];
 			res.calcCarries();
 		}
 	}
