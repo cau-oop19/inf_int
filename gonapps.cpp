@@ -62,6 +62,14 @@ void inf_int::calcComplements() {
 }
 
 void inf_int::normalize() {
+	size_t zeros = 0;
+	for(size_t i = length - 1; digits[i] == 0 && i != -1; --i)
+		++zeros;
+	if(length - zeros > 0) {
+		digits = (char*)realloc(digits, length - zeros);
+		length -= zeros;
+	}
+
 	for(size_t i = 0; i != length; ++i) {
 		if(digits[i] < 0)
 			digits[i] *= -1;
