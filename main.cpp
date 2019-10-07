@@ -24,13 +24,13 @@ int main()
 	//////////////////////////
 	assert((inf_int(100) + inf_int(200)) == inf_int(300));	//양수 + 양수
 
-	assert((inf_int(100) + inf_int(200)) == inf_int(-100));	//양수 + 음수
+	assert((inf_int(100) + inf_int(-200)) == inf_int(-100));	//양수 + 음수
 
-	assert((inf_int(200) + inf_int(300)) == inf_int(-500));	//음수 + 음수
+	assert((inf_int(-200) + inf_int(-300)) == inf_int(-500));	//음수 + 음수
 
 	assert((inf_int("80000000000") + inf_int("-30000000000")) == inf_int("50000000000"));	//큰양수 + 큰음수
 
-	assert((inf_int("-9999999998") + inf_int("9999999999")) == inf_int("-19999999997"));	//큰음수 + 큰음수 올림수테스트
+	assert((inf_int("-9999999998") + inf_int("-9999999999")) == inf_int("-19999999997"));	//큰음수 + 큰음수 올림수테스트
 
 	//////////////////////////
 	/*			-			*/
