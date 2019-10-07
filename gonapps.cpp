@@ -113,7 +113,7 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 	res.extend(longer.length + shorter.length - 1 - 1);
 	for(size_t i = 0; i != longer.length; ++i) {
 		for(size_t j = 0; j != shorter.length; ++j) {
-			res.digits[i + j] = longer.digits[i] * shorter.digits[j];
+			res.digits[i + j] += longer.digits[i] * shorter.digits[j];
 			res.calcCarries();
 		}
 	}
