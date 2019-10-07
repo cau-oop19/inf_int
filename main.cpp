@@ -79,7 +79,17 @@ int main()
 	/////////////////////////////
 	/*            >            */
 	/////////////////////////////
-	assert((inf_int(100) > inf_int(200)) == false);
+	assert((inf_int(100) > inf_int(200)) == false); // 양수 > 양수
+
+	assert((inf_int(100) > inf_int(-200)) == true); // 양수 > 음수
+
+	assert((inf_int(-100) > inf_int(200)) == false); // 음수 > 양수
+
+	assert((inf_int(-100) > inf_int(-200)) == true); // 음수 > 음수
+
+	assert((inf_int(10000) > inf_int(200)) == true); // 양수 > 양수 (다른 자릿수)
+
+	assert((inf_int(100) > inf_int(20000)) == false); // 양수 > 양수 (다른 자릿수)
 
 	assert((inf_int("-30000000000") > inf_int("-30000000000")) == false);
 
@@ -88,7 +98,17 @@ int main()
 	/////////////////////////////
 	/*            <            */
 	/////////////////////////////
-	assert((inf_int(100) < inf_int(200)) == true);
+	assert((inf_int(100) < inf_int(200)) == true); // 양수 < 양수
+
+	assert((inf_int(100) < inf_int(-200)) == false); // 양수 < 음수
+
+	assert((inf_int(-100) < inf_int(200)) == true); // 음수 < 양수
+
+	assert((inf_int(-100) < inf_int(-200)) == false); // 음수 < 음수
+
+	assert((inf_int(10000) < inf_int(200)) == false); // 양수 < 양수 (다른 자릿수)
+
+	assert((inf_int(100) < inf_int(20000)) == true); // 양수 < 양수 (다른 자릿수)
 
 	assert((inf_int("-30000000000") < inf_int("-30000000000")) == false);
 

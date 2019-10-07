@@ -40,21 +40,17 @@ bool operator!=(const inf_int& lhs, const inf_int& rhs) {
 bool operator>(const inf_int& lhs, const inf_int& rhs) {
 
 	// 1. 부호 비교
-	if (lhs.thesign != rhs.thesign) { // lhs와 rhs의 부호가 서로 다를 경우
-		return lhs.thesign; // lhs가 양수일 경우 true, lhs가 음수일 경우 false 반환
-	}
+	if (lhs.thesign != rhs.thesign) return lhs.thesign; // 두 수의 부호가 다를 때, lhs가 양수일 경우 true, lhs가 음수일 경우 false 반환
 
 	// 2. 길이 비교
-	else { // lhs와 rhs의 부호가 서로 같을 경우
-		if (lhs.length > rhs.length) return lhs.thesign; // lhs의 길이가 더 길 경우 lhs가 양수이면 true, lhs가 음수이면 false 반환
-		else if (lhs.length < rhs.length) return rhs.thesign; // rhs의 길이가 더 길 경우 rhs가 양수이면 true, rhs가 음수이면 false 반환
-		else { // lhs와 rhs의 길이 또한 같을 경우
-			for (std::size_t i = lhs.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용
-				if (*(lhs.digits + i - 1) > *(rhs.digits + i - 1)) return lhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 클 경우
-				else if (*(lhs.digits + i - 1) < *(rhs.digits + i - 1)) return rhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 작을 경우
-				else continue;
-			}
-		}
+	if (lhs.length > rhs.length) return lhs.thesign; // lhs의 길이가 더 길 경우 lhs가 양수이면 true, lhs가 음수이면 false 반환
+	else if (lhs.length < rhs.length) return !lhs.thesign; // rhs의 길이가 더 길 경우 rhs가 양수이면 true, rhs가 음수이면 false 반환
+
+	// 3. 자릿수 비교
+	for (std::size_t i = lhs.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용
+		if (*(lhs.digits + i - 1) > *(rhs.digits + i - 1)) return lhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 클 경우
+		else if (*(lhs.digits + i - 1) < *(rhs.digits + i - 1)) return !lhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 작을 경우
+		else continue;
 	}
 
 	return false; // lhs와 rhs가 완전히 같음, false 출력
@@ -63,21 +59,17 @@ bool operator>(const inf_int& lhs, const inf_int& rhs) {
 bool operator<(const inf_int& lhs, const inf_int& rhs) {
 
 	// 1. 부호 비교
-	if (lhs.thesign != rhs.thesign) { // lhs와 rhs의 부호가 서로 다를 경우
-		return rhs.thesign; // rhs가 양수일 경우 true, rhs가 음수일 경우 false 반환
-	}
+	if (lhs.thesign != rhs.thesign) return rhs.thesign; // 두 수의 부호가 다를 때, rhs가 양수일 경우 true, lhs가 음수일 경우 false 반환
 
 	// 2. 길이 비교
-	else { // lhs와 rhs의 부호가 서로 같을 경우
-		if (lhs.length < rhs.length) return rhs.thesign; // rhs의 길이가 더 길 경우 rhs가 양수이면 true, rhs가 음수이면 false 반환
-		else if (lhs.length > rhs.length) return lhs.thesign; // lhs의 길이가 더 길 경우 rhs가 양수이면 true, rhs가 음수이면 false 반환
-		else { // lhs와 rhs의 길이 또한 같을 경우
-			for (std::size_t i = lhs.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용
-				if (*(lhs.digits + i - 1) < *(rhs.digits + i - 1)) return rhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 작을 경우
-				else if (*(lhs.digits + i - 1) > *(rhs.digits + i - 1)) return lhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 클 경우
-				else continue;
-			}
-		}
+	if (lhs.length > rhs.length) return !lhs.thesign; // lhs의 길이가 더 길 경우 lhs가 양수이면 false, lhs가 음수이면 true 반환
+	else if (lhs.length < rhs.length) return lhs.thesign; // rhs의 길이가 더 길 경우 rhs가 양수이면 false, rhs가 음수이면 true 반환
+
+	// 3. 자릿수 비교
+	for (std::size_t i = lhs.length; i > 0; i--) { // 자릿수 순회, 숫자가 거꾸로 저장되기 때문에 -- 사용
+		if (*(lhs.digits + i - 1) > *(rhs.digits + i - 1)) return !lhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 클 경우
+		else if (*(lhs.digits + i - 1) < *(rhs.digits + i - 1)) return lhs.thesign; // 현재 자릿수가 lhs가 rhs보다 더 작을 경우
+		else continue;
 	}
 
 	return false; // lhs와 rhs가 완전히 같음, false 출력

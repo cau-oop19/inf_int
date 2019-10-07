@@ -3,3 +3,5 @@ Debug/
 x64/
 *.o
 inf_int
+inf_int.exe
+inf_int.exe.stackdump
