@@ -10,9 +10,13 @@
 #include <cstring>
 #include <cstdlib>
 #include <cassert>
+#include <chrono>
 
 int main()
 {
+
+	auto start = std::chrono::high_resolution_clock::now();
+
 	/////////////////////////////
 	/*            +            */
 	/////////////////////////////
@@ -138,5 +142,7 @@ int main()
 		std::cout << "f : " << f << std::endl;
 		// cout << "g : " << g << endl;
 	}
+	auto finish = std::chrono::high_resolution_clock::now();
+	std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count() << "ns" << std::endl;
 	return 0;
 }
