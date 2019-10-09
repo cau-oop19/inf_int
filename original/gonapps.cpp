@@ -34,10 +34,6 @@ void inf_int::calcCarries() {
 		digits[length - 1 - 1] += 10;
 		digits[length - 1] -= 1;
 	}
-
-	size_t nonzero;
-	for(nonzero = length - 1; digits[nonzero] == 0 && nonzero != -1; --nonzero);
-	thesign = digits[nonzero] >= 0;
 }
 
 void inf_int::extend(unsigned int extent) {
@@ -70,10 +66,6 @@ void inf_int::calcComplements() {
 		}
 	}
 
-	// change sign according to the sign of the biggest non-zero digit
-	size_t nonzero;
-	for(nonzero = length - 1; digits[nonzero] == 0 && nonzero != -1; --nonzero);
-	thesign = digits[nonzero] >= 0;
 }
 
 void inf_int::normalize() {
@@ -113,6 +105,10 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 		res.calcCarries();
 	else
 		res.calcComplements();
+	// change sign according to the sign of the biggest non-zero digit
+	size_t nonzero;
+	for(nonzero = res.length - 1; res.digits[nonzero] == 0 && nonzero != -1; --nonzero);
+	res.thesign = res.digits[nonzero] >= 0;
 	res.normalize();
 	return res;
 }
