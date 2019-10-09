@@ -42,7 +42,6 @@ inf_int::inf_int(const char* arg_str) {
 
 	thesign = arg_str[0] != '-';
 
-	//앞에 붙은 0들을 제외한 문자열 시작위치를 start_i에 대입  
 	size_t start_i = 0;
 	for (size_t i = 0; i < strlen(arg_str); i++) {
 		if (arg_str[i] >= '1' && arg_str[i] <= '9') {

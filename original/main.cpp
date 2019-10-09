@@ -12,7 +12,7 @@ int main()
 	printf("Alignment of max_align_t is %zu (%#zx)\n", align, align);
 	assert(align == 16);
 
-
+/*
 	std::cout << inf_int{-9098} << " + " << inf_int{99} << " = " << inf_int{-9098} + inf_int{99} << std::endl;
 	std::cout << inf_int{-9999} << " + " << inf_int{9000} << " = " << inf_int{-9999} + inf_int{9000} << std::endl;
 	std::cout << inf_int{-9998} << " + " << inf_int{9} << " = " << inf_int{-9998} + inf_int{9} << std::endl;
@@ -119,7 +119,11 @@ int main()
 		std::cout << "f : " << f << std::endl;
 		// cout << "g : " << g << endl;
 	}
-
+*/
+	const char* str = "14128134790127491238471029348710293487019247810923487019234870193284709134708123470934709128309812340978124810923478091234870192348709123470934092382758146534859924713840123417823046257896458471395728347812907135868173871234081273482765891345782694723049328901286586127895678430128471298478456914802478123401865781236124789128562147891912478216349120878750192850127192478234012934895891598124982748910925719208920357983271891275234";
+	for(int i = 0; i < 10000; ++i) {
+		(inf_int{str} == inf_int{str});
+	}
 	auto finish = std::chrono::high_resolution_clock::now();
 	std::cout << "total time: " << std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count() << "ns" << std::endl;
 	return 0;
