@@ -8,6 +8,10 @@
 int main()
 {
 	auto start = std::chrono::high_resolution_clock::now();
+	size_t align = alignof(max_align_t);
+	printf("Alignment of max_align_t is %zu (%#zx)\n", align, align);
+	assert(align == 16);
+
 
 	std::cout << inf_int{-9098} << " + " << inf_int{99} << " = " << inf_int{-9098} + inf_int{99} << std::endl;
 	std::cout << inf_int{-9999} << " + " << inf_int{9000} << " = " << inf_int{-9999} + inf_int{9000} << std::endl;
