@@ -1,6 +1,6 @@
 all: inf_int
 inf_int: kms.o gonapps.o skh.o main.o
-	g++ -g kms.o gonapps.o skh.o main.o -o inf_int
+	g++ -g kms.o gonapps.o skh.o main.o -lpthread -o inf_int
 kms.o: inf_int.h kms.cpp
 	g++ -g -c kms.cpp -o kms.o
 gonapps.o: inf_int.h gonapps.cpp
