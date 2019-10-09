@@ -13,6 +13,7 @@ private :
 	// ex) -12345555555555 -> digits="55555555554321", length=14, thesign=false
 	// you may insert additional private members here.
 	void extend(unsigned int extent);
+	void calcCarry(size_t idx);
 	void calcCarries();
 	void calcComplements();
 	void normalize();

@@ -3,18 +3,23 @@
 #include <cstdlib>
 #include <cstring>
 #include <utility>
+#include <cassert>
 #include "inf_int.h"
+
+void inf_int::calcCarry(size_t idx) {
+	while(digits[idx] >= 10) {
+		digits[idx] -= 10;
+		digits[idx + 1] += 1;
+	}
+	while(digits[idx] <= -10) {
+		digits[idx] += 10;
+		digits[idx + 1] -= 1;
+	}
+}
 
 void inf_int::calcCarries() {
 	for(size_t i = 0; i != length - 1; ++i) {
-		while(digits[i] >= 10) {
-			digits[i] -= 10;
-			digits[i + 1] += 1;
-		}
-		while(digits[i] <= -10) {
-			digits[i] += 10;
-			digits[i + 1] -= 1;
-		}
+		calcCarry(i);
 	}
 
 	if(digits[length - 1] >= 10 || digits[length - 1] <= -10)
@@ -29,7 +34,10 @@ void inf_int::calcCarries() {
 		digits[length - 1 - 1] += 10;
 		digits[length - 1] -= 1;
 	}
-	thesign = digits[length - 1] >= 0;
+
+	size_t nonzero;
+	for(nonzero = length - 1; digits[nonzero] == 0 && nonzero != -1; --nonzero);
+	thesign = digits[nonzero] >= 0;
 }
 
 void inf_int::extend(unsigned int extent) {
@@ -39,34 +47,41 @@ void inf_int::extend(unsigned int extent) {
 }
 
 void inf_int::calcComplements() {
-	for(size_t i = length - 1 - 1; i != -1; --i) {
-		if(digits[i + 1] * digits[i] < 0) {
-			if(digits[i + 1] > 0) {
-				++digits[i + 1];
-				if(digits[i] > 0)
-					digits[i] = 10 - digits[i];
-				else
-					digits[i] = -10 - digits[i];
+	for(size_t i = length - 1 - 1; i != -1 && length != 1; --i) {
+		size_t j;
+		for(j = i + 1; digits[j] == 0 && j != length - 1; ++j) {}
+		if(digits[j] * digits[i] < 0) {
+			if(digits[j] > 0) {
+				--digits[j];
+				digits[i] = 10 + digits[i];
 
 			} else {
-				--digits[i + 1];
+				++digits[j];
+				digits[i] = -10 + digits[i];
+			}
+			for(j -= 1; j != i && j != length - 1; --j) {
+				if(digits[j] != 0)
+					continue;
 				if(digits[i] > 0)
-					digits[i] = 10 - digits[i];
+					digits[j] = 9;
 				else
-					digits[i] = -10 - digits[i];
+					digits[j] = -9;
 			}
 		}
 	}
-	// change sign according to the sign of the biggest digit
-	thesign = digits[length - 1] >= 0;
+
+	// change sign according to the sign of the biggest non-zero digit
+	size_t nonzero;
+	for(nonzero = length - 1; digits[nonzero] == 0 && nonzero != -1; --nonzero);
+	thesign = digits[nonzero] >= 0;
 }
 
 void inf_int::normalize() {
 	// remove all zeros in the front
 	size_t zeros = 0;
-	for(size_t i = length - 1; digits[i] == 0 && i != -1; --i)
+	for(size_t i = length - 1; digits[i] == 0 && i != 0; --i)
 		++zeros;
-	if(length - zeros > 0) {
+	if(zeros > 0 && length - zeros > 0) {
 		digits = (char*)realloc(digits, length - zeros);
 		length -= zeros;
 	}
@@ -92,6 +107,8 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 		= longerSign * longer.digits[i]
 		+ shorterSign * shorter.digits[i];
 	}
+	for(size_t i = shorter.length; i != longer.length; ++i)
+		res.digits[i] = longerSign * longer.digits[i];
 	if(longerSign == shorterSign)
 		res.calcCarries();
 	else
@@ -107,7 +124,7 @@ inf_int operator-(const inf_int& lhs, const inf_int& rhs) {
 }
 
 inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
-	//  len == len1 + len2 - 1 || len == len1 + len2
+	// len == len1 + len2 - 1 || len == len1 + len2
 	const auto& longer = lhs.length > rhs.length ? lhs : rhs;
 	const auto& shorter = lhs.length > rhs.length ? rhs : lhs;
 	inf_int res{};
@@ -119,6 +136,9 @@ inf_int operator*(const inf_int& lhs, const inf_int& rhs) {
 		}
 	}
 	res.thesign = longer.thesign == shorter.thesign;
+	res.normalize();
+	if(res.length == 1 && res.digits[0] == 0)
+		res.thesign = true;
 	return res;
 }
 
