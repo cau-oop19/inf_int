@@ -1,5 +1,5 @@
 CFLAGS := -g
-#CFLAGS += -fsanitize=address,leak
+CFLAGS += -fsanitize=address,leak
 all: inf_int
 inf_int: kms.o gonapps.o skh.o main.o Makefile
 	g++ $(CFLAGS) kms.o gonapps.o skh.o main.o -o inf_int
