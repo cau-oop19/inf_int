@@ -83,7 +83,6 @@ int main()
 	assert((inf_int("-30000000000") < inf_int("-30000000000")) == false);
 
 	assert((inf_int("30000000000") < inf_int("-30000000000")) == false);
-
 	for(int i = -99; i < 100; ++i) {
 		for(int j = -99; j < 100; ++j) {
 			std::cout << inf_int{i} << " + " << inf_int{j} << " = " << inf_int{i} + inf_int{j} << std::endl;
@@ -94,7 +93,6 @@ int main()
 			assert(inf_int{i} * inf_int{j} == inf_int{i * j});
 		}
 	}
-
 	std::cout << "---------------------Given TestCase---------------------" << std::endl;
 	inf_int a, e;
 	inf_int b(100);

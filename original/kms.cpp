@@ -28,7 +28,7 @@ inf_int::inf_int(int arg_int) {
 
 	new (this) inf_int((const char*)intToStr);
 
-	//free(intToStr);
+	free(intToStr);
 }
 
 

@@ -37,6 +37,8 @@ void inf_int::calcCarries() {
 }
 
 void inf_int::extend(unsigned int extent) {
+	if(extent == 0)
+		return;
 	digits = (char*)realloc(digits, length + extent);
 	memset(digits + length, 0, extent);
 	length += extent;
@@ -107,8 +109,8 @@ inf_int operator+(const inf_int& lhs, const inf_int& rhs) {
 		res.calcComplements();
 	// change sign according to the sign of the biggest non-zero digit
 	size_t nonzero;
-	for(nonzero = res.length - 1; res.digits[nonzero] == 0 && nonzero != -1; --nonzero);
-	res.thesign = res.digits[nonzero] >= 0;
+	for(nonzero = res.length - 1; nonzero != -1 && res.digits[nonzero] == 0; --nonzero);
+	res.thesign = nonzero == -1 || res.digits[nonzero] >= 0;
 	res.normalize();
 	return res;
 }
