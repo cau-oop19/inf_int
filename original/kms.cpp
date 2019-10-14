@@ -23,7 +23,7 @@ inf_int::inf_int(int arg_int) {
 		++intLen;
 	} while (intTemp /= 10);
 
-	char* intToStr = (char*)malloc(sizeof(char) * (intLen + 1));	//NULL 자리 포함해서 +1
+	char* intToStr = (char*)malloc(sizeof(char) * (intLen + 2));	//NULL 자리 포함해서 +1
 	snprintf(intToStr, sizeof(char) * (intLen + 2), "%d", arg_int);	//NULL, 앞의 부호 자리 포함해서 +2 
 
 	new (this) inf_int((const char*)intToStr);
