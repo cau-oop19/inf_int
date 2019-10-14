@@ -26,8 +26,6 @@ int main()
 	assert(inf_int{-9999} + inf_int{9000} == inf_int{-9999 + 9000});
 	assert(inf_int{-9998} + inf_int{89} == inf_int{-9998 + 89});
 	assert(inf_int{-9998} + inf_int{8999} == inf_int{-9998 + 8999});
-	std::cout << inf_int{-9} - inf_int{-9} << " and " << inf_int{-9 - -9} << std::endl;
-	assert(0);
 	assert(inf_int{-9} - inf_int{-9} == inf_int{-9 - -9});
 	assert(inf_int{-9} - inf_int{-8} == inf_int{-9 - -8});
 
